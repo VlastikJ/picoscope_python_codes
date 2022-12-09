@@ -25,14 +25,11 @@ step = 1
 hist_r = TH1F("rozlozeni_amp"," ",rozsah*step,0,rozsah*step)
 
 sum = []
-cislo = 0
  
 capt =  1000
 starttime = time.time()
 endtime = 0.1 #pocet minut jak dlouho pojede mereni 
 while time.time() < starttime + endtime*60:
-#while cislo <10:
-    cislo = cislo + 1
     napeti, n_samples = naberData('50 mV',capt,2)
     napeti = -napeti
     napeti = napeti.transpose()
