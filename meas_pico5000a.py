@@ -29,7 +29,7 @@ sec_C_range = '2 V'
 
 sum = []
 amp = []
-cislo = 0
+
 
 
 starttime = time.time()
@@ -37,8 +37,6 @@ endtime = 2 #pocet minut jak dlouho pojede mereni
 
 hist_r = TH1F("rozlozeni_amp"," ",n_bins,-rozsah,rozsah)
 while time.time() < starttime + endtime*60:
-#while cislo <10:
-    cislo = cislo + 1
     napeti, n_samples = naberData_5('10 mV',capt,3,sec_C_range)
     napeti = -napeti
     napeti = napeti.transpose()
