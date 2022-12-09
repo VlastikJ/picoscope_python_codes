@@ -11,7 +11,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 #import os.path as op
-from naberData_5 import naberData_5
+from picoscope_5000a_runblock import naberData_5
 import datetime as dt
 from ROOT import TCanvas, TPad, TFile, TPaveLabel, TPaveText, TH1F,TString
 import time
