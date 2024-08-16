@@ -4,7 +4,9 @@ from picosdk.ps5000a import ps5000a as ps
 from picosdk.functions import adc2mV, assert_pico_ok,mV2adc
 import time
 
-def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
+
+
+def getData(usr_range,n_pulses,timebase ,bit,TrLevel):
     PICOSCOPE_CHANNEL_NAMES = {"A" : 0, "B" : 1, "C" : 2, "D" : 3,"EXT":4}
     PICOSCOPE_COUPLING_NAMES = {"DC": 1, "AC": 0}
     PICOSCOPE_RANGE_NAMES = {
@@ -65,7 +67,9 @@ def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
     chandle = ctypes.c_int16()
     status = {}
 
-        
+    
+    
+    
     status["openunit"] = ps.ps5000aOpenUnit(ctypes.byref(chandle), None,1)
     try:
         assert_pico_ok(status["openunit"])
@@ -302,45 +306,18 @@ def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
         channel = "A"
         status["setDataBuffersA"] = ps.ps5000aSetDataBuffers(chandle, PICOSCOPE_CHANNEL_NAMES[channel], ctypes.byref(bufferAMax), ctypes.byref(bufferAMin),total_samples, segment, 0)
         assert_pico_ok(status["setDataBuffersA"])
-        status["getValues"] = ps.ps5000aGetValues(chandle,
-                                                  0,
-                                                  ctypes.byref(cmaxSamples),
-                                                  0, # downSampleRatio
-                                                  0, # ps.PS5000a_RATIO_MODE['PS5000a_RATIO_MODE_NONE']
-                                                  segment,
-                                                  ctypes.byref(overflow))
-        assert_pico_ok(status["getValues"])
-        adc2mVChAMax =  adc2mV(bufferAMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
-       
+        
         channel = "B"
         status["setDataBuffersB"] = ps.ps5000aSetDataBuffers(chandle, PICOSCOPE_CHANNEL_NAMES[channel], ctypes.byref(bufferBMax), ctypes.byref(bufferBMin), total_samples, segment, 0)
         assert_pico_ok(status["setDataBuffersB"])
-        status["getValues"] = ps.ps5000aGetValues(chandle,
-                                                  0,
-                                                  ctypes.byref(cmaxSamples),
-                                                  0, # downSampleRatio
-                                                  0, # ps.PS5000a_RATIO_MODE['PS5000a_RATIO_MODE_NONE']
-                                                  segment,
-                                                  ctypes.byref(overflow))
-        assert_pico_ok(status["getValues"])
-        adc2mVChBMax =  adc2mV(bufferBMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
-        
+    
         channel = "C"
         status["setDataBuffersC"] = ps.ps5000aSetDataBuffers(chandle, PICOSCOPE_CHANNEL_NAMES[channel], ctypes.byref(bufferCMax), ctypes.byref(bufferCMin), total_samples, segment, 0)
         assert_pico_ok(status["setDataBuffersC"])
-        status["getValues"] = ps.ps5000aGetValues(chandle,
-                                                  0,
-                                                  ctypes.byref(cmaxSamples),
-                                                  0, # downSampleRatio
-                                                  0, # ps.PS5000a_RATIO_MODE['PS5000a_RATIO_MODE_NONE']
-                                                  segment,
-                                                  ctypes.byref(overflow))
-        assert_pico_ok(status["getValues"])
-        adc2mVChCMax =  adc2mV(bufferCMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
+      
         channel = "D"
         status["setDataBuffersD"] = ps.ps5000aSetDataBuffers(chandle, PICOSCOPE_CHANNEL_NAMES[channel], ctypes.byref(bufferDMax), ctypes.byref(bufferDMin), total_samples, segment, 0)
         assert_pico_ok(status["setDataBuffersD"])
-       
 
         status["getValues"] = ps.ps5000aGetValues(chandle,
                                                   0,
@@ -352,7 +329,11 @@ def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
         assert_pico_ok(status["getValues"])
         
         
+        adc2mVChAMax =  adc2mV(bufferAMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
+        adc2mVChCMax =  adc2mV(bufferCMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
+        adc2mVChBMax =  adc2mV(bufferBMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
         adc2mVChDMax =  adc2mV(bufferDMax,  PICOSCOPE_RANGE_NAMES[usr_range], maxADC)
+
 
         resultsA[:,segment] = adc2mVChAMax
         resultsB[:,segment] = adc2mVChBMax
