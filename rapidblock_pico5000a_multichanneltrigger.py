@@ -4,8 +4,6 @@ from picosdk.ps5000a import ps5000a as ps
 from picosdk.functions import adc2mV, assert_pico_ok,mV2adc
 import time
 
-
-
 def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
     PICOSCOPE_CHANNEL_NAMES = {"A" : 0, "B" : 1, "C" : 2, "D" : 3,"EXT":4}
     PICOSCOPE_COUPLING_NAMES = {"DC": 1, "AC": 0}
@@ -67,9 +65,7 @@ def GetData(usr_range,n_pulses,timebase ,bit,TrLevel):
     chandle = ctypes.c_int16()
     status = {}
 
-    
-    
-    
+        
     status["openunit"] = ps.ps5000aOpenUnit(ctypes.byref(chandle), None,1)
     try:
         assert_pico_ok(status["openunit"])
